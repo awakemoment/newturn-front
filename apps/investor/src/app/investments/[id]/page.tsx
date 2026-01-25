@@ -112,15 +112,15 @@ export default function InvestmentDetailPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <div className="text-sm text-gray-500">투자 금액</div>
-              <div className="text-xl font-semibold text-gray-900">${reward.savings_amount.toFixed(2)}</div>
+              <div className="text-xl font-semibold text-gray-900">${Number(reward.savings_amount || 0).toFixed(2)}</div>
             </div>
             <div>
               <div className="text-sm text-gray-500">매수 가격</div>
-              <div className="text-xl font-semibold text-gray-900">${reward.purchase_price.toFixed(2)}</div>
+              <div className="text-xl font-semibold text-gray-900">${purchasePrice.toFixed(2)}</div>
             </div>
             <div>
               <div className="text-sm text-gray-500">매수 주수</div>
-              <div className="text-xl font-semibold text-gray-900">{reward.shares.toFixed(4)}</div>
+              <div className="text-xl font-semibold text-gray-900">{shares.toFixed(4)}</div>
             </div>
             <div>
               <div className="text-sm text-gray-500">매수일</div>
@@ -143,7 +143,7 @@ export default function InvestmentDetailPage() {
             <div>
               <div className="text-sm text-gray-600">현재가</div>
               <div className="text-xl font-semibold text-gray-900">
-                ${(reward.current_price || 0).toFixed(2)}
+                ${Number(reward.current_price || 0).toFixed(2)}
               </div>
             </div>
             <div>
@@ -215,7 +215,7 @@ export default function InvestmentDetailPage() {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-gray-500">매도 가격:</span>
-                  <span className="ml-2 font-semibold">${(reward.sell_price || 0).toFixed(2)}</span>
+                  <span className="ml-2 font-semibold">${Number(reward.sell_price || 0).toFixed(2)}</span>
                 </div>
                 <div>
                   <span className="text-gray-500">매도일:</span>
@@ -225,12 +225,12 @@ export default function InvestmentDetailPage() {
                 </div>
                 <div>
                   <span className="text-gray-500">수수료:</span>
-                  <span className="ml-2 font-semibold">${reward.commission.toFixed(2)}</span>
+                  <span className="ml-2 font-semibold">${Number(reward.commission || 0).toFixed(2)}</span>
                 </div>
                 <div>
                   <span className="text-gray-500">순수익:</span>
                   <span className="ml-2 font-semibold text-green-600">
-                    ${(reward.net_proceeds || 0).toFixed(2)}
+                    ${Number(reward.net_proceeds || 0).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -251,15 +251,15 @@ export default function InvestmentDetailPage() {
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">예산:</span>
-              <span className="font-semibold">${reward.budget.toFixed(2)}</span>
+              <span className="font-semibold">${Number(reward.budget || 0).toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">실제 사용:</span>
-              <span className="font-semibold">${reward.actual_spent.toFixed(2)}</span>
+              <span className="font-semibold">${Number(reward.actual_spent || 0).toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">절약 금액:</span>
-              <span className="font-semibold text-green-600">${reward.savings_amount.toFixed(2)}</span>
+              <span className="font-semibold text-green-600">${Number(reward.savings_amount || 0).toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">상태:</span>

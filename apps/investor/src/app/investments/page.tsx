@@ -62,9 +62,13 @@ export default function InvestmentsPage() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">투자 중 ({activeRewards.length})</h3>
                 <div className="space-y-4">
                   {activeRewards.map((reward) => {
-                    const purchaseCost = reward.purchase_price * reward.shares
-                    const profit = (reward.current_value || 0) - purchaseCost
-                    const profitRate = ((profit / purchaseCost) * 100) || 0
+                    const savingsAmount = Number(reward.savings_amount || 0)
+                    const purchasePrice = Number(reward.purchase_price || 0)
+                    const shares = Number(reward.shares || 0)
+                    const currentValue = Number(reward.current_value || 0)
+                    const purchaseCost = purchasePrice * shares
+                    const profit = currentValue - purchaseCost
+                    const profitRate = purchaseCost > 0 ? ((profit / purchaseCost) * 100) : 0
 
                     return (
                       <div
@@ -83,12 +87,12 @@ export default function InvestmentsPage() {
                             <div className="grid grid-cols-2 gap-4 text-sm">
                               <div>
                                 <span className="text-gray-500">투자 금액:</span>
-                                <span className="ml-2 font-semibold">${reward.savings_amount.toFixed(2)}</span>
+                                <span className="ml-2 font-semibold">${savingsAmount.toFixed(2)}</span>
                               </div>
                               <div>
                                 <span className="text-gray-500">현재 가치:</span>
                                 <span className="ml-2 font-semibold">
-                                  ${(reward.current_value || 0).toFixed(2)}
+                                  ${currentValue.toFixed(2)}
                                 </span>
                               </div>
                               <div>
@@ -136,9 +140,13 @@ export default function InvestmentsPage() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">매도 완료 ({soldRewards.length})</h3>
                 <div className="space-y-4">
                   {soldRewards.map((reward) => {
-                    const purchaseCost = reward.purchase_price * reward.shares
-                    const profit = (reward.net_proceeds || 0) - purchaseCost
-                    const profitRate = ((profit / purchaseCost) * 100) || 0
+                    const savingsAmount = Number(reward.savings_amount || 0)
+                    const purchasePrice = Number(reward.purchase_price || 0)
+                    const shares = Number(reward.shares || 0)
+                    const netProceeds = Number(reward.net_proceeds || 0)
+                    const purchaseCost = purchasePrice * shares
+                    const profit = netProceeds - purchaseCost
+                    const profitRate = purchaseCost > 0 ? ((profit / purchaseCost) * 100) : 0
 
                     return (
                       <div
@@ -157,7 +165,7 @@ export default function InvestmentsPage() {
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
                             <span className="text-gray-500">투자 금액:</span>
-                            <span className="ml-2 font-semibold">${reward.savings_amount.toFixed(2)}</span>
+                            <span className="ml-2 font-semibold">${savingsAmount.toFixed(2)}</span>
                           </div>
                           <div>
                             <span className="text-gray-500">순수익:</span>

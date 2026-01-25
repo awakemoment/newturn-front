@@ -385,7 +385,7 @@ export default function AccountDetailPage() {
                         : 'text-red-600'
                     }`}>
                       {tx.transaction_type === 'deposit' || tx.transaction_type === 'sale' ? '+' : '-'}
-                      ${tx.amount.toFixed(2)}
+                      ${Number(tx.amount || 0).toFixed(2)}
                     </div>
                     <div className="text-xs text-gray-500">
                       잔액: ${tx.balance_after.toFixed(2)}
