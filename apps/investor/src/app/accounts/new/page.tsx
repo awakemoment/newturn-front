@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createCategoryAccount, getBankAccount, getBankAccounts, linkBankAccount, type UserBankAccount } from '@/lib/api/accounts'
 
@@ -13,7 +13,7 @@ const CATEGORIES = [
   { value: 'other', label: '기타', icon: '📝' },
 ]
 
-export default function NewAccountPage() {
+function NewAccountForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const bankAccountId = searchParams.get('bank_account_id')
