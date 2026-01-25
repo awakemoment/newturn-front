@@ -185,10 +185,19 @@ export default function BankAccountDetailPage() {
                       )}
                     </div>
                     {tx.category_detail && (
-                      <div className="text-sm text-gray-600 mt-1">{tx.category_detail}</div>
+                      <div className="text-sm text-gray-600 mt-1">
+                        {Array.isArray(tx.category_detail)
+                          ? tx.category_detail.join(' > ')
+                          : tx.category_detail}
+                      </div>
                     )}
                     {tx.note && (
-                      <div className="text-xs text-gray-500 mt-1">{tx.note}</div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {tx.note}
+                        {tx.is_synced_from_bank && tx.merchant_name && (
+                          <span className="ml-2">자동 동기화: {tx.merchant_name}</span>
+                        )}
+                      </div>
                     )}
                     <div className="text-xs text-gray-400 mt-1">
                       {tx.bank_transaction_date

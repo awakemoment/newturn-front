@@ -34,7 +34,7 @@ export interface Transaction {
   amount: number
   balance_after: number
   merchant_name: string
-  category_detail: string
+  category_detail: string | string[]  // 배열일 수도 있음
   note: string
   transaction_date: string
   bank_transaction_date: string | null
