@@ -324,9 +324,9 @@ export default function AccountDetailPage() {
                       <div className="col-span-2">
                         <div className="text-gray-500">수익률</div>
                         <div className={`font-semibold ${
-                          Number(reward.return_rate) > 0 ? 'text-green-600' : 'text-red-600'
+                          Number(reward.return_rate || 0) > 0 ? 'text-green-600' : 'text-red-600'
                         }`}>
-                          {Number(reward.return_rate).toFixed(2)}%
+                          {Number(reward.return_rate || 0).toFixed(2)}%
                         </div>
                       </div>
                     )}
@@ -388,7 +388,7 @@ export default function AccountDetailPage() {
                       ${Number(tx.amount || 0).toFixed(2)}
                     </div>
                     <div className="text-xs text-gray-500">
-                      잔액: ${tx.balance_after.toFixed(2)}
+                      잔액: ${Number(tx.balance_after || 0).toFixed(2)}
                     </div>
                   </div>
                 </div>
