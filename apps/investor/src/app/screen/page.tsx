@@ -6,6 +6,7 @@ import { screenStocks, getScreeningTable, type ScreeningTableRow } from '@/lib/a
 import { useComparisonCart } from '@/lib/hooks/useComparisonCart'
 import { addToWatchlist } from '@/lib/api/watchlist'
 import DisclaimerFooter from '@/components/DisclaimerFooter'
+import AppHeader from '@/components/AppHeader'
 
 interface StockCard {
   id: number
@@ -20,8 +21,7 @@ interface StockCard {
 export default function ScreenPage() {
   const router = useRouter()
   const { stocks: comparisonStocks, addStock, removeStock, hasStock, count } = useComparisonCart()
-  const [selectedMarket, setSelectedMarket] = useState('전체 시장')
-  const [selectedIndustry, setSelectedIndustry] = useState('전체 산업군')
+  const [selectedMarket, setSelectedMarket] = useState<'all' | 'kr' | 'us'>('all')
   const [selectedCuration, setSelectedCuration] = useState(1)
   const [showAddedNotification, setShowAddedNotification] = useState(false)
   const [stockCards, setStockCards] = useState<StockCard[]>([])
@@ -44,7 +44,7 @@ export default function ScreenPage() {
     } else {
       fetchTableData()
     }
-  }, [selectedCuration, viewMode, sortBy])
+  }, [selectedCuration, viewMode, sortBy, selectedMarket])
 
   const fetchStocks = async () => {
     setLoading(true)
@@ -55,7 +55,9 @@ export default function ScreenPage() {
       
       const data = await getScreeningTable({ 
         sort_by: mateType as any,
-        min_avg_score: 60  // 평균 60점 이상만
+        min_avg_score: 60,
+        page_size: 5000,
+        country: selectedMarket === 'all' ? undefined : selectedMarket,
       })
 
       const colors = ['bg-gray-400', 'bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-yellow-500', 'bg-black']
@@ -85,7 +87,11 @@ export default function ScreenPage() {
   const fetchTableData = async () => {
     setLoading(true)
     try {
-      const data = await getScreeningTable({ sort_by: sortBy })
+      const data = await getScreeningTable({
+        sort_by: sortBy,
+        page_size: 5000,
+        country: selectedMarket === 'all' ? undefined : selectedMarket,
+      })
       setTableData(data.results)
     } catch (error) {
       console.error('Failed to fetch table data:', error)
@@ -142,43 +148,10 @@ export default function ScreenPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Left: Logo + Nav */}
-            <div className="flex items-center gap-8">
-              <h1 className="text-2xl font-bold text-green-600 cursor-pointer" onClick={() => router.push('/')}>
-                newturn
-              </h1>
-              <button 
-                onClick={() => router.push('/watchlist')}
-                className="text-gray-700 hover:text-gray-900 flex items-center gap-2"
-              >
-                ⭐ 관심종목
-              </button>
-              <button 
-                onClick={() => router.push('/portfolio')}
-                className="text-gray-700 hover:text-gray-900"
-              >
-                포트폴리오
-              </button>
-            </div>
-
-            {/* Right: Search */}
-            <div className="flex items-center gap-4">
-              <button className="p-2">
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader active="screen" />
 
       {/* Filter Bar */}
-      <div className="border-b border-gray-200 bg-white">
+      <div className="sticky top-16 z-30 border-b border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-between">
             {/* Left: View Mode Toggle */}
@@ -206,17 +179,16 @@ export default function ScreenPage() {
                 </button>
               </div>
 
-              {viewMode === 'card' && (
-                <>
-                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                    {selectedMarket}
-                  </button>
+              <select
+                value={selectedMarket}
+                onChange={(e) => setSelectedMarket(e.target.value as 'all' | 'kr' | 'us')}
+                className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm"
+              >
+                <option value="all">전체 시장</option>
+                <option value="kr">한국</option>
+                <option value="us">미국</option>
+              </select>
 
-                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                    {selectedIndustry}
-                  </button>
-                </>
-              )}
             </div>
 
             {/* Right: Comparison Cart */}
@@ -323,6 +295,15 @@ export default function ScreenPage() {
         ) : viewMode === 'table' ? (
           /* 테이블 뷰 */
           <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="px-6 py-3 border-b border-gray-100 text-sm text-gray-600">
+              {tableData.length}개 종목
+              {selectedMarket === 'all' && (
+                <span className="ml-2 text-gray-400">
+                  (한국 {tableData.filter((r) => r.stock.country === 'kr').length} · 미국{' '}
+                  {tableData.filter((r) => r.stock.country === 'us').length})
+                </span>
+              )}
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
@@ -360,7 +341,15 @@ export default function ScreenPage() {
                       <td className="px-6 py-4">
                         <div>
                           <div className="font-semibold text-gray-900">{row.stock.stock_name}</div>
-                          <div className="text-sm text-gray-500">{row.stock.stock_code}</div>
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <span>{row.stock.stock_code}</span>
+                            {row.stock.country === 'kr' && (
+                              <span className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 text-xs">한국</span>
+                            )}
+                            {row.stock.country === 'us' && (
+                              <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 text-xs">미국</span>
+                            )}
+                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-center">

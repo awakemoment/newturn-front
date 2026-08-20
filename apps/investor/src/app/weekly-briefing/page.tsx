@@ -1,32 +1,13 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import WeeklyBriefingTemplate from '@/components/WeeklyBriefingTemplate'
 import DisclaimerFooter from '@/components/DisclaimerFooter'
+import AppHeader from '@/components/AppHeader'
 
 export default function WeeklyBriefingPage() {
-  const router = useRouter()
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <button onClick={() => router.push('/')} className="text-lg font-bold text-green-600">
-            Newturn
-          </button>
-          <div className="flex items-center gap-4 text-sm font-medium text-gray-600">
-            <button onClick={() => router.push('/screen')} className="hover:text-gray-900">
-              종목 탐색
-            </button>
-            <button onClick={() => router.push('/watchlist')} className="hover:text-gray-900">
-              관심종목
-            </button>
-            <button onClick={() => router.push('/weekly-briefing')} className="text-green-600">
-              주간 브리핑
-            </button>
-          </div>
-        </div>
-      </header>
+      <AppHeader />
 
       <main className="mx-auto max-w-5xl px-4 pb-16 pt-12 sm:px-6 lg:px-8">
         <div className="mb-10 rounded-2xl border border-green-100 bg-white p-8 shadow-sm">

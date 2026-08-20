@@ -3,12 +3,14 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function SubscribeSuccessPage() {
+export default function InvestmentsRemovedLayout({
+  children: _children,
+}: {
+  children: React.ReactNode
+}) {
   const router = useRouter()
-
   useEffect(() => {
-    router.replace('/subscribe')
+    router.replace('/')
   }, [router])
-
   return null
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getPortfolios, deletePortfolio, type Portfolio } from '@/lib/api/portfolio'
 import AddPortfolioModal from '@/components/add-portfolio-modal'
+import AppHeader from '@/components/AppHeader'
 
 export default function PortfolioPage() {
   const router = useRouter()
@@ -55,33 +56,25 @@ export default function PortfolioPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
-              <h1 className="text-2xl font-bold text-green-600 cursor-pointer" onClick={() => router.push('/')}>
-                newturn
-              </h1>
-              <span className="text-gray-700">내 포트폴리오</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setShowAddModal(true)}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center gap-2"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                종목 추가
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader
+        active="portfolio"
+        right={
+          <button
+            type="button"
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            종목 추가
+          </button>
+        }
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900">포트폴리오</h2>
         {loading && (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -104,7 +97,7 @@ export default function PortfolioPage() {
             <p className="mt-2 text-gray-500">첫 번째 종목을 추가해보세요</p>
             <button
               onClick={() => setShowAddModal(true)}
-              className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="mt-4 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
               종목 추가
             </button>

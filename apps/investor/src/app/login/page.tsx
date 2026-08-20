@@ -56,9 +56,13 @@ export default function LoginPage() {
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
       {/* Logo */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-green-600 mb-4">
+        <button
+          type="button"
+          onClick={() => router.push('/')}
+          className="mb-4 text-4xl font-bold text-green-600"
+        >
           newturn
-        </h1>
+        </button>
         <p className="text-gray-700 text-lg">
           나만의 투자 근거를 언제 어디서나 꺼내보세요
         </p>

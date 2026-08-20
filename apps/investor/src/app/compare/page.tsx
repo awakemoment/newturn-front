@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { searchStocks, compareStocks, getStock, type Stock } from '@/lib/api/stocks'
 import { useComparisonCart } from '@/lib/hooks/useComparisonCart'
+import AppHeader from '@/components/AppHeader'
 
 export default function ComparePage() {
   const router = useRouter()
@@ -109,29 +110,11 @@ export default function ComparePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
-              <h1 className="text-2xl font-bold text-green-600 cursor-pointer" onClick={() => router.push('/')}>
-                newturn
-              </h1>
-              <span className="text-gray-700">종목 비교</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="p-2">
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader active="compare" />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900">종목 비교</h2>
         {/* Search & Selected */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between mb-4">

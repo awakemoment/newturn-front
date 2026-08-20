@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import ValuationDashboard from '@/components/ValuationDashboard'
 import MateInfoModal from '@/components/MateInfoModal'
 import DisclaimerFooter from '@/components/DisclaimerFooter'
+import AppHeader from '@/components/AppHeader'
 
 interface ProperPrice {
   mate_type: string
@@ -81,22 +82,11 @@ export default function WatchlistPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
-              <h1 className="text-2xl font-bold text-green-600 cursor-pointer" onClick={() => router.push('/')}>
-                newturn
-              </h1>
-              <h2 className="text-lg font-semibold text-gray-900">⭐ 관심 종목</h2>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader active="watchlist" />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900">관심 종목</h2>
         {loading ? (
           <div className="text-center py-20">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
@@ -277,7 +267,7 @@ export default function WatchlistPage() {
                 <div className="text-6xl mb-4">⭐</div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">관심 종목을 추가해보세요</h3>
                 <p className="text-gray-600 mb-6">
-                  스크리닝에서 마음에 드는 종목을 발견하고<br />
+                  종목 탐색에서 마음에 드는 종목을 발견하고<br />
                   관심 종목에 추가하면 적정가격을 자동으로 계산해드립니다!
                 </p>
                 <button

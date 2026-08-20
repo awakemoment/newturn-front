@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { getPortfolioDetail, getHoldingDecision, type PortfolioDetail, type HoldingSignalDetail } from '@/lib/api/portfolio'
+import AppHeader, { PageBackLink } from '@/components/AppHeader'
 
 export default function PortfolioDetailPage() {
   const router = useRouter()
@@ -81,10 +82,13 @@ export default function PortfolioDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <p className="mt-2 text-gray-600">불러오는 중...</p>
+      <div className="min-h-screen bg-gray-50">
+        <AppHeader active="portfolio" />
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-b-2 border-green-600"></div>
+            <p className="mt-2 text-gray-600">불러오는 중...</p>
+          </div>
         </div>
       </div>
     )
@@ -92,15 +96,19 @@ export default function PortfolioDetailPage() {
 
   if (error || !portfolio) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600">{error || '포트폴리오를 찾을 수 없습니다'}</p>
-          <button
-            onClick={() => router.push('/portfolio')}
-            className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            목록으로
-          </button>
+      <div className="min-h-screen bg-gray-50">
+        <AppHeader active="portfolio" />
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center">
+            <p className="text-red-600">{error || '포트폴리오를 찾을 수 없습니다'}</p>
+            <button
+              type="button"
+              onClick={() => router.push('/portfolio')}
+              className="mt-4 rounded-lg bg-green-600 px-6 py-2 text-white hover:bg-green-700"
+            >
+              목록으로
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -112,50 +120,33 @@ export default function PortfolioDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <button
-                onClick={() => router.push('/portfolio')}
-                className="text-blue-600 hover:text-blue-700 flex items-center gap-1 mb-2"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                포트폴리오 목록
-              </button>
-              <h1 className="text-3xl font-bold text-gray-900">
-                {portfolio.stock.stock_code}
-              </h1>
-              <p className="mt-2 text-gray-600">{portfolio.stock.stock_name}</p>
-            </div>
-            <button
-              onClick={handleGetHoldingSignal}
-              disabled={loadingSignal}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 flex items-center gap-2"
-            >
-              {loadingSignal ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  분석 중...
-                </>
-              ) : (
-                <>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                  </svg>
-                  보유 결정 분석
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-      </header>
+      <AppHeader active="portfolio" />
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <PageBackLink href="/portfolio" label="포트폴리오 목록" />
+        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              {portfolio.stock.stock_code}
+            </h1>
+            <p className="mt-2 text-gray-600">{portfolio.stock.stock_name}</p>
+          </div>
+          <button
+            type="button"
+            onClick={handleGetHoldingSignal}
+            disabled={loadingSignal}
+            className="flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-white hover:bg-green-700 disabled:bg-gray-400"
+          >
+            {loadingSignal ? (
+              <>
+                <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
+                분석 중...
+              </>
+            ) : (
+              '보유 결정 분석'
+            )}
+          </button>
+        </div>
         {/* Holding Signal */}
         {holdingSignal && (
           <div className={`mb-8 p-6 rounded-lg border-2 ${getSignalColor(holdingSignal.signal)}`}>

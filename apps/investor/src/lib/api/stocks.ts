@@ -265,6 +265,7 @@ export interface ScreeningTableRow {
     id: number
     stock_code: string
     stock_name: string
+    country?: string
   }
   benjamin: number
   fisher: number
@@ -282,6 +283,8 @@ export interface ScreeningTableParams {
   min_lynch?: number
   sort_by?: 'benjamin' | 'fisher' | 'greenblatt' | 'lynch' | 'avg'
   page?: number
+  page_size?: number
+  country?: 'kr' | 'us' | ''
 }
 
 export async function getScreeningTable(params?: ScreeningTableParams) {

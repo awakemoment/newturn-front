@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import MateInfoModal from '@/components/MateInfoModal'
+import { apiClient } from '@/lib/axios'
 
 interface CuratedContent {
   id: number
@@ -45,8 +46,7 @@ export default function LearnTab({ stockId, stockCode, stockName }: Props) {
 
   const fetchContents = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/content/stocks/${stockId}/`)
-      const data = await response.json()
+      const { data } = await apiClient.get(`/api/content/stocks/${stockId}/`)
       setContents(data.contents || [])
     } catch (error) {
       console.error('Failed to fetch contents:', error)
@@ -312,7 +312,11 @@ function ContentCard({ content, compact = false }: { content: CuratedContent, co
           rel="noopener noreferrer"
           className="inline-block px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
         >
-          {content.source.is_free ? '무료로 시청하기 →' : `보러가기 (${content.source.price_info}) →`}
+          {content.source?.source_type === 'our_content'
+            ? '이어서 보기 →'
+            : content.source?.is_free
+              ? '무료로 보기 →'
+              : `보러가기 (${content.source?.price_info || ''}) →`}
         </a>
       </div>
     </div>

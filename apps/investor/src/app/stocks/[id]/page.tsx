@@ -19,6 +19,7 @@ import { CashflowChart } from '@/components/cashflow-chart'
 import TenKInsightsReport from '@/components/TenKInsightsReport'
 import LearnTab from './learn-tab'
 import DisclaimerFooter from '@/components/DisclaimerFooter'
+import AppHeader, { PageBackLink } from '@/components/AppHeader'
 
 export default function StockDetailPage() {
   const params = useParams()
@@ -103,10 +104,13 @@ export default function StockDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">데이터 로딩 중...</p>
+      <div className="min-h-screen bg-gray-50">
+        <AppHeader active="screen" />
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center">
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-green-600"></div>
+            <p className="mt-4 text-gray-600">데이터 로딩 중...</p>
+          </div>
         </div>
       </div>
     )
@@ -114,15 +118,19 @@ export default function StockDetailPage() {
 
   if (error || !stock || !indicators) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600">{error || '데이터를 찾을 수 없습니다'}</p>
-          <button
-            onClick={() => router.push('/')}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
-          >
-            홈으로 돌아가기
-          </button>
+      <div className="min-h-screen bg-gray-50">
+        <AppHeader active="screen" />
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center">
+            <p className="text-red-600">{error || '데이터를 찾을 수 없습니다'}</p>
+            <button
+              type="button"
+              onClick={() => router.push('/screen')}
+              className="mt-4 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+            >
+              종목 탐색으로
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -130,31 +138,10 @@ export default function StockDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => router.push('/')}
-              className="text-blue-600 hover:text-blue-800 flex items-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              검색으로 돌아가기
-            </button>
-            <button
-              onClick={() => router.push('/screen')}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              스크리닝
-            </button>
-          </div>
-        </div>
-      </header>
+      <AppHeader active="screen" />
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <PageBackLink href="/screen" label="종목 탐색으로" />
         {/* Stock Info + Score */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-start justify-between">

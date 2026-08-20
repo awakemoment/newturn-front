@@ -4,7 +4,6 @@ export default function DisclaimerFooter() {
   return (
     <footer className="mt-auto py-8 bg-gray-50 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Disclaimer */}
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
           <div className="flex">
             <div className="flex-shrink-0">
@@ -14,27 +13,33 @@ export default function DisclaimerFooter() {
             </div>
             <div className="ml-3">
               <h3 className="text-sm font-semibold text-yellow-800">투자 유의사항</h3>
-              <div className="mt-2 text-sm text-yellow-700">
-                <p className="mb-1">
-                  본 서비스는 <strong>투자 참고용 정보 제공</strong> 목적이며, 
+              <div className="mt-2 text-sm text-yellow-700 space-y-1">
+                <p>
+                  본 서비스는 <strong>투자 참고용 정보 제공</strong> 목적이며,
                   특정 종목의 매수/매도를 권유하지 않습니다.
                 </p>
                 <p>
-                  모든 투자 판단과 결과는 <strong>투자자 본인의 책임</strong>입니다. 
-                  당사는 투자 손실에 대해 책임지지 않습니다.
+                  같은 날에는 <strong>같은 참고 정보</strong>를 모두에게 보여 줍니다.
+                  계좌 맞춤 상담, 1:1 리딩, 카톡 리딩은 하지 않습니다.
+                </p>
+                <p>
+                  <strong>원금이나 수익률을 보장하지 않습니다.</strong>
+                  모든 투자 판단과 결과는 투자자 본인의 책임이며, 당사는 투자 손실에 대해 책임지지 않습니다.
+                </p>
+                <p>
+                  증권사 연동 주문은 이용자 본인이 직접 실험하는 기능입니다.
+                  당사가 타인의 계좌를 대신 매매하거나 자동매매 서비스로 제공하지 않습니다.
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Footer Info */}
         <div className="text-center text-sm text-gray-500">
-          <p className="mb-2">© 2024 Newturn. All rights reserved.</p>
-          <p>투자 분석 도구 • 데이터 기반 정보 제공</p>
+          <p className="mb-2">© 2026 Newturn. All rights reserved.</p>
+          <p>투자 분석 도구 • 데이터 기반 정보 제공 • 지금은 모두 무료</p>
         </div>
       </div>
     </footer>
   )
 }
-

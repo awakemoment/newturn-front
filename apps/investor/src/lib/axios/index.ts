@@ -3,13 +3,14 @@
  * jgabin 구조 참고
  * 
  * 로컬: http://localhost:8000
- * AWS: https://api.newturn.com
+ * 운영(newturn.modoo-music.com): 같은 호스트면 빈 문자열 → /api 상대경로
  */
 
 import axios, { AxiosError } from 'axios';
 
-// 환경변수에서 API URL 가져오기
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000');
 
 console.log('🔗 API URL:', API_URL);
 
@@ -50,15 +51,21 @@ apiClient.interceptors.response.use(
   },
   (error: AxiosError) => {
     console.error('❌ API Error:', error.response?.status, error.config?.url);
-    
-    // 401 에러 시 로그인 페이지로
+
     if (error.response?.status === 401) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('auth_token');
         window.location.href = '/login';
       }
     }
-    
+
+    if (!error.response) {
+      const friendly = new Error(
+        '서버에 연결하지 못했어요. 백엔드가 켜져 있는지 확인한 뒤 다시 눌러 주세요.',
+      )
+      return Promise.reject(friendly)
+    }
+
     return Promise.reject(error);
   }
 );
